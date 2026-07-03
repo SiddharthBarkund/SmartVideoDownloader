@@ -66,8 +66,11 @@ async def update_settings(body: SettingsUpdate):
 
     # Validate download folder
     if "download_folder" in updates:
-        folder = Path(updates["download_folder"])
-        folder.mkdir(parents=True, exist_ok=True)
+        try:
+            folder = Path(updates["download_folder"])
+            folder.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            pass  # On cloud, custom folders may not be writable
 
     _save_settings(current)
     return {"success": True, "data": current}

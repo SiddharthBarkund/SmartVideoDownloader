@@ -14,6 +14,7 @@ import yt_dlp
 
 from app.utils.logger import get_logger
 from app.utils.formatters import format_size, format_duration, format_date, format_views
+from app.config import IS_CLOUD
 
 logger = get_logger("video_service")
 
@@ -23,6 +24,7 @@ def _base_ydl_opts(use_cookies: bool = False) -> dict:
 
     Includes headers to avoid HTTP 403 errors from YouTube's bot-detection.
     Cookie extraction is opt-in because Chrome locks its DB while running.
+    On cloud deployments, cookies are never used (no browser available).
     """
     opts: dict = {
         "quiet": True,
@@ -39,7 +41,7 @@ def _base_ydl_opts(use_cookies: bool = False) -> dict:
             "Accept-Language": "en-US,en;q=0.5",
         },
     }
-    if use_cookies:
+    if use_cookies and not IS_CLOUD:
         opts["cookiesfrombrowser"] = ("chrome",)
     return opts
 

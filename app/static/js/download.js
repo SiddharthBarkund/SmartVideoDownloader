@@ -121,6 +121,15 @@ const DownloadManager = (() => {
         if (data.status === 'complete') {
             state = 'complete';
             UI.showToast('Download completed! 🎉', 'success', 6000);
+            // Trigger browser download of the file from the server
+            if (currentDownloadId) {
+                const link = document.createElement('a');
+                link.href = `/api/file/${currentDownloadId}`;
+                link.download = '';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
             resetControls();
         } else if (data.status === 'error') {
             state = 'error';

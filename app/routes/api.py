@@ -149,3 +149,36 @@ async def cancel(download_id: str):
     if not success:
         raise HTTPException(status_code=404, detail="Download not found or already finished.")
     return {"success": True, "message": "Download cancelled."}
+
+
+@router.get("/file/{download_id}")
+async def get_file(download_id: str):
+    """
+    Stream a completed download file to the user's browser.
+    Essential for cloud deployments where files live on the server's ephemeral storage.
+    """
+    from pathlib import Path
+    from fastapi.responses import FileResponse
+
+    state = video_service.get_download_state(download_id)
+    if state is None:
+        raise HTTPException(status_code=404, detail="Download not found.")
+    if state["status"] != "complete":
+        raise HTTPException(status_code=400, detail="Download is not complete yet.")
+
+    filepath = state.get("filename")
+    if not filepath:
+        raise HTTPException(status_code=404, detail="File path not available.")
+
+    file_path = Path(filepath)
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="File no longer exists on server.")
+
+    # Determine a safe download filename
+    safe_name = file_path.name
+
+    return FileResponse(
+        path=str(file_path),
+        filename=safe_name,
+        media_type="application/octet-stream",
+    )

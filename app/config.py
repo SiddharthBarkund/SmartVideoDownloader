@@ -8,24 +8,37 @@ from pathlib import Path
 
 
 # ──────────────────────────────────────────────
+# Environment Detection
+# ──────────────────────────────────────────────
+IS_CLOUD = os.getenv("IS_CLOUD", "false").lower() == "true"
+
+# ──────────────────────────────────────────────
 # Paths
 # ──────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent
 STATIC_DIR = BASE_DIR / "static"
 TEMPLATES_DIR = BASE_DIR / "templates"
-DB_PATH = PROJECT_ROOT / "history.db"
-LOG_DIR = PROJECT_ROOT / "logs"
 
-# Default download location (user-configurable via Settings)
-DEFAULT_DOWNLOAD_DIR = Path.home() / "Downloads" / "SmartVideoDownloader"
+if IS_CLOUD:
+    # Cloud: use /tmp for ephemeral storage (Render free tier)
+    _CLOUD_DATA = Path("/tmp/svd_data")
+    _CLOUD_DATA.mkdir(parents=True, exist_ok=True)
+    DB_PATH = _CLOUD_DATA / "history.db"
+    LOG_DIR = _CLOUD_DATA / "logs"
+    DEFAULT_DOWNLOAD_DIR = _CLOUD_DATA / "downloads"
+else:
+    DB_PATH = PROJECT_ROOT / "history.db"
+    LOG_DIR = PROJECT_ROOT / "logs"
+    DEFAULT_DOWNLOAD_DIR = Path.home() / "Downloads" / "SmartVideoDownloader"
+
 DEFAULT_DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 # ──────────────────────────────────────────────
 # Server
 # ──────────────────────────────────────────────
 HOST = "0.0.0.0"
-PORT = 5050
+PORT = int(os.getenv("PORT", "5050"))
 DEBUG = os.getenv("SVD_DEBUG", "true").lower() == "true"
 
 # ──────────────────────────────────────────────

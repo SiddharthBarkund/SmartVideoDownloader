@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: smart-video-downloader
+    runtime: docker
+    plan: free
+    envVars:
+      - key: SVD_DEBUG
+        value: "false"
+      - key: IS_CLOUD
+        value: "true"
