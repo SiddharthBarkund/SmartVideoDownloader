@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Video Downloader — A modern, premium video downloader with quality selection, progress tracking, and download history.">
+    <title>Smart Video Downloader</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="/static/css/animations.css">
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════
+         Loading Overlay
+         ═══════════════════════════════════════ -->
+    <div id="spinner-overlay" class="spinner-overlay">
+        <div class="spinner"></div>
+        <span id="spinner-text" class="spinner-text">Analyzing video...</span>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         Toast Container
+         ═══════════════════════════════════════ -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ═══════════════════════════════════════
+         Mobile Header
+         ═══════════════════════════════════════ -->
+    <header class="mobile-header">
+        <button id="hamburger-btn" class="hamburger-btn" aria-label="Open menu">
+            <span class="material-symbols-rounded">menu</span>
+        </button>
+        <span class="mobile-header__title">Smart Video Downloader</span>
+        <div style="width: 36px;"></div>
+    </header>
+
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- ═══════════════════════════════════════
+         App Layout
+         ═══════════════════════════════════════ -->
+    <div class="app-layout">
+
+        <!-- ── Sidebar ─────────────────────── -->
+        <aside class="sidebar">
+            <div class="sidebar__brand">
+                <div class="sidebar__brand-icon">
+                    <span class="material-symbols-rounded">download</span>
+                </div>
+                <div class="sidebar__brand-text">
+                    <h1>Smart Video</h1>
+                    <span>Downloader</span>
+                </div>
+            </div>
+
+            <nav class="sidebar__nav">
+                <a href="#home" class="sidebar__link active" data-page="home">
+                    <span class="material-symbols-rounded">home</span>
+                    Home
+                </a>
+                <a href="#history" class="sidebar__link" data-page="history">
+                    <span class="material-symbols-rounded">history</span>
+                    Downloads History
+                </a>
+                <a href="#settings" class="sidebar__link" data-page="settings">
+                    <span class="material-symbols-rounded">settings</span>
+                    Settings
+                </a>
+                <a href="#about" class="sidebar__link" data-page="about">
+                    <span class="material-symbols-rounded">info</span>
+                    About
+                </a>
+            </nav>
+
+            <div class="sidebar__footer">
+                <p class="sidebar__footer-text">v1.0.0 &bull; Made with ❤️</p>
+            </div>
+        </aside>
+
+        <!-- ── Main Content ────────────────── -->
+        <main class="main-content">
+
+            <!-- ═══════════════════════════════
+                 HOME PAGE
+                 ═══════════════════════════════ -->
+            <section id="page-home" class="page-section active">
+                <div class="page-header">
+                    <h2>Download Videos</h2>
+                    <p>Paste a video URL to analyze and download in your preferred quality.</p>
+                </div>
+
+                <!-- URL Input -->
+                <div class="glass-card glass-card--flat anim-fade-up">
+                    <div class="url-input-wrapper">
+                        <input
+                            type="url"
+                            id="url-input"
+                            class="input input--lg"
+                            placeholder="Paste video URL here... (YouTube, Vimeo, etc.)"
+                            autocomplete="off"
+                            spellcheck="false"
+                            aria-label="Video URL"
+                        >
+                        <button id="btn-paste" class="btn btn--secondary btn--icon" title="Paste from clipboard">
+                            <span class="material-symbols-rounded">content_paste</span>
+                        </button>
+                    </div>
+
+                    <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-md); flex-wrap: wrap;">
+                        <button id="btn-analyze" class="btn btn--primary">
+                            <span class="material-symbols-rounded">search</span>
+                            Analyze
+                        </button>
+                        <button id="btn-download" class="btn btn--success" disabled>
+                            <span class="material-symbols-rounded">download</span>
+                            Download
+                        </button>
+                        <button id="btn-clear" class="btn btn--secondary">
+                            <span class="material-symbols-rounded">close</span>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video Info Card -->
+                <div id="video-info" class="glass-card video-info anim-fade-up">
+                    <div class="video-thumbnail">
+                        <img id="video-thumbnail-img" src="" alt="Video thumbnail">
+                        <span id="video-duration-badge" class="video-thumbnail__duration"></span>
+                    </div>
+                    <div class="video-meta">
+                        <h3 id="video-title" class="video-meta__title"></h3>
+                        <span id="video-channel" class="video-meta__channel"></span>
+                        <div class="video-meta__stats">
+                            <div class="video-meta__stat">
+                                <span class="material-symbols-rounded">visibility</span>
+                                <span id="video-views"></span>
+                            </div>
+                            <div class="video-meta__stat">
+                                <span class="material-symbols-rounded">calendar_today</span>
+                                <span id="video-upload-date"></span>
+                            </div>
+                            <div class="video-meta__stat">
+                                <span class="material-symbols-rounded">data_usage</span>
+                                <span id="video-filesize"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Format Selection -->
+                <div id="format-selection" class="glass-card format-selection anim-fade-up">
+                    <h3 style="font-size: var(--fs-md); font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-xs);">
+                        <span class="material-symbols-rounded" style="vertical-align: middle; margin-right: 4px;">tune</span>
+                        Select Quality
+                    </h3>
+                    <p style="font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: var(--space-md);">Choose your preferred video quality and format.</p>
+
+                    <div id="format-grid" class="format-grid stagger-children"></div>
+
+                    <div class="output-format-row">
+                        <label for="output-format">Output Format:</label>
+                        <select id="output-format" class="select">
+                            <option value="mp4">MP4</option>
+                            <option value="webm">WEBM</option>
+                            <option value="mp3">Audio (MP3)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Download Controls & Progress -->
+                <div id="download-controls" class="glass-card download-controls anim-fade-up">
+                    <div class="progress-wrapper">
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-bar__fill"></div>
+                        </div>
+                        <div class="progress-stats">
+                            <span id="progress-percent" class="progress-percent">0.0%</span>
+                            <div style="display: flex; gap: var(--space-lg);">
+                                <span><strong>Speed:</strong> <span id="progress-speed">—</span></span>
+                                <span><strong>ETA:</strong> <span id="progress-eta">—</span></span>
+                                <span><strong>Size:</strong> <span id="progress-size">—</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="download-actions">
+                        <button id="btn-cancel-download" class="btn btn--danger" style="display: none;">
+                            <span class="material-symbols-rounded">cancel</span>
+                            Cancel Download
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════
+                 HISTORY PAGE
+                 ═══════════════════════════════ -->
+            <section id="page-history" class="page-section">
+                <div class="page-header">
+                    <h2>Downloads History</h2>
+                    <p>View and manage your downloaded videos.</p>
+                </div>
+
+                <div class="glass-card glass-card--flat">
+                    <div class="history-toolbar">
+                        <input
+                            type="text"
+                            id="history-search"
+                            class="input"
+                            placeholder="Search downloads..."
+                            aria-label="Search downloads"
+                        >
+                        <button id="btn-clear-history" class="btn btn--danger btn--sm">
+                            <span class="material-symbols-rounded">delete_sweep</span>
+                            Clear All
+                        </button>
+                    </div>
+
+                    <div id="history-list" class="history-list">
+                        <div class="history-empty">
+                            <span class="material-symbols-rounded">history</span>
+                            <p>No downloads yet</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════
+                 SETTINGS PAGE
+                 ═══════════════════════════════ -->
+            <section id="page-settings" class="page-section">
+                <div class="page-header">
+                    <h2>Settings</h2>
+                    <p>Configure your download preferences.</p>
+                </div>
+
+                <div class="glass-card glass-card--flat">
+                    <!-- General Settings -->
+                    <div class="settings-group">
+                        <h3 class="settings-group__title">General</h3>
+
+                        <div class="settings-row">
+                            <div class="settings-row__label">
+                                <strong>Download Folder</strong>
+                                <span>Where downloaded files are saved</span>
+                            </div>
+                            <input
+                                type="text"
+                                id="settings-folder"
+                                class="input"
+                                style="max-width: 350px;"
+                                placeholder="Enter folder path..."
+                                aria-label="Download folder path"
+                            >
+                        </div>
+
+                        <div class="settings-row">
+                            <div class="settings-row__label">
+                                <strong>Auto-open folder</strong>
+                                <span>Open the download folder after completion</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="settings-auto-open">
+                                <span class="toggle__slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Appearance -->
+                    <div class="settings-group">
+                        <h3 class="settings-group__title">Appearance</h3>
+
+                        <div class="settings-row">
+                            <div class="settings-row__label">
+                                <strong>Light Theme</strong>
+                                <span>Switch between dark and light mode</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="settings-theme">
+                                <span class="toggle__slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Language -->
+                    <div class="settings-group">
+                        <h3 class="settings-group__title">Language</h3>
+
+                        <div class="settings-row">
+                            <div class="settings-row__label">
+                                <strong>Interface Language</strong>
+                                <span>Select your preferred language</span>
+                            </div>
+                            <select id="settings-language" class="select">
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                                <option value="fr">Français</option>
+                                <option value="de">Deutsch</option>
+                                <option value="pt">Português</option>
+                                <option value="ja">日本語</option>
+                                <option value="ko">한국어</option>
+                                <option value="zh">中文</option>
+                                <option value="hi">हिन्दी</option>
+                                <option value="ar">العربية</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════
+                 ABOUT PAGE
+                 ═══════════════════════════════ -->
+            <section id="page-about" class="page-section">
+                <div class="page-header">
+                    <h2>About</h2>
+                    <p>Smart Video Downloader v1.0.0</p>
+                </div>
+
+                <div class="about-grid stagger-children">
+                    <div class="glass-card about-card hover-lift">
+                        <div class="about-card__icon about-card__icon--purple">
+                            <span class="material-symbols-rounded">download</span>
+                        </div>
+                        <h3>Multi-Quality Downloads</h3>
+                        <p>Download videos in any quality from 144p up to 4K. Choose between MP4, WEBM, or extract audio as MP3.</p>
+                    </div>
+
+                    <div class="glass-card about-card hover-lift">
+                        <div class="about-card__icon about-card__icon--cyan">
+                            <span class="material-symbols-rounded">speed</span>
+                        </div>
+                        <h3>Real-Time Progress</h3>
+                        <p>Monitor your downloads with a live progress bar, download speed, and estimated time remaining.</p>
+                    </div>
+
+                    <div class="glass-card about-card hover-lift">
+                        <div class="about-card__icon about-card__icon--orange">
+                            <span class="material-symbols-rounded">history</span>
+                        </div>
+                        <h3>Download History</h3>
+                        <p>Keep track of all your downloads with a searchable history. Easily find and open downloaded files.</p>
+                    </div>
+
+                    <div class="glass-card about-card hover-lift">
+                        <div class="about-card__icon about-card__icon--green">
+                            <span class="material-symbols-rounded">palette</span>
+                        </div>
+                        <h3>Premium Interface</h3>
+                        <p>Beautiful glassmorphism design with dark and light themes, smooth animations, and responsive layout.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card about-disclaimer anim-fade-up">
+                    <strong>⚠️ Legal Disclaimer</strong><br>
+                    This application is intended for downloading content that you are authorized to download. Please respect copyright laws and the terms of service of video platforms. The developers are not responsible for any misuse of this software.
+                </div>
+
+                <div class="glass-card anim-fade-up" style="margin-top: var(--space-lg); text-align: center;">
+                    <h3 style="font-size: var(--fs-md); color: var(--text-primary); margin-bottom: var(--space-sm);">Tech Stack</h3>
+                    <p style="color: var(--text-secondary); font-size: var(--fs-sm); line-height: 1.8;">
+                        <strong>Frontend:</strong> HTML5 &bull; CSS3 &bull; Vanilla JavaScript<br>
+                        <strong>Backend:</strong> Python &bull; FastAPI &bull; Uvicorn<br>
+                        <strong>Engine:</strong> yt-dlp &bull; FFmpeg<br>
+                        <strong>Database:</strong> SQLite (aiosqlite)
+                    </p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         Scripts (order matters — dependencies first)
+         ═══════════════════════════════════════ -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/ui.js"></script>
+    <script src="/static/js/download.js"></script>
+    <script src="/static/js/app.js"></script>
+
+</body>
+</html>
