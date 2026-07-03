@@ -40,8 +40,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     
     // YoutubeDL-Android library
-    implementation 'com.github.yausername.youtubedl-android:library:0.16.2'
-    implementation 'com.github.yausername.youtubedl-android:ffmpeg:0.16.2'
+    implementation 'com.github.yausername.youtubedl-android:library:0.17.0'
+    implementation 'com.github.yausername.youtubedl-android:ffmpeg:0.17.0'
     
     // Coroutines for background tasks
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
