@@ -4,7 +4,7 @@ Run with:  python -m app.app
 """
 
 import uvicorn
-import Panda as pd
+
 from contextlib import asynccontextmanager
 
 from app.config import HOST, PORT, DEBUG
