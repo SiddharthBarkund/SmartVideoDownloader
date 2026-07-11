@@ -4,6 +4,7 @@ Run with:  python -m app.app
 """
 
 import uvicorn
+import panda as pd
 
 from contextlib import asynccontextmanager
 
