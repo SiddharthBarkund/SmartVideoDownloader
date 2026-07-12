@@ -1,107 +1,178 @@
-# Smart Video Downloader
+# 🎬 MediaFlow
 
-A modern, full-stack video downloader web application with a premium glassmorphism UI and Python Flask backend.
+A modern, full-stack media downloader web application featuring a premium glassmorphism interface and a high-performance Python FastAPI backend.
 
 ## ⚠️ Legal Disclaimer
 
-This application should only be used to download content that you are authorized to download. Please comply with applicable laws and the terms of service of video platforms.
+MediaFlow is intended only for downloading content that you own or have permission to download. Users are responsible for complying with applicable copyright laws and the terms of service of the platforms they use.
 
-## Features
+---
 
-- 🔍 **Video Analysis** — Paste a URL to extract metadata (title, thumbnail, duration, formats)
-- 📥 **Multi-Quality Downloads** — Choose from 144p to 4K, MP4/WEBM/MP3
-- 📊 **Real-Time Progress** — Live progress bar, speed, and ETA via Server-Sent Events
-- 📜 **Download History** — Searchable history with file location access
-- ⚙️ **Settings** — Default folder, theme toggle, language selector
-- 🎨 **Premium UI** — Dark/Light glassmorphism theme with smooth animations
+## ✨ Features
 
-## Screenshots
+* 🔍 **Smart Media Analysis** — Extract title, thumbnail, duration, uploader, and available formats from a media URL.
+* 📥 **High-Quality Downloads** — Download videos in multiple resolutions (144p–4K) or extract audio in MP3 format.
+* ⚡ **Real-Time Progress Tracking** — Live download progress with speed, ETA, and status updates using Server-Sent Events (SSE).
+* 📂 **Download History** — View, search, and manage previous downloads.
+* ⚙️ **Custom Settings** — Configure download location, theme, language, and default quality.
+* 🎨 **Premium Glassmorphism UI** — Modern responsive interface with Dark and Light themes.
+* 🚀 **FastAPI Backend** — High-performance asynchronous API powered by FastAPI and Uvicorn.
+* 🔒 **Secure URL Validation** — Validates supported URLs before processing.
+* 📱 **Responsive Design** — Optimized for desktop, tablet, and mobile devices.
 
-After running the app, visit `http://localhost:5050` to see the UI.
+---
 
-## Installation
+## 📸 Preview
 
-### Prerequisites
+After starting the application, open:
 
-- **Python 3.9+**
-- **FFmpeg** (optional, required for MP3 audio extraction and some format merging)
+`http://localhost:5050`
 
-### Steps
+---
+
+# 🚀 Installation
+
+## Prerequisites
+
+* Python 3.10 or later
+* FFmpeg *(Optional, recommended for audio extraction and video merging)*
+
+## Setup
 
 ```bash
-# 1. Clone or navigate to the project
-cd SmartVideoDownloader
+# Clone the repository
+git clone <repository-url>
 
-# 2. Create a virtual environment (recommended)
+# Navigate into the project
+cd MediaFlow
+
+# Create a virtual environment
 python -m venv venv
-venv\Scripts\activate     # Windows
-# source venv/bin/activate  # macOS/Linux
 
-# 3. Install dependencies
+# Activate the environment
+
+# Windows
+venv\Scripts\activate
+
+# macOS/Linux
+source venv/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
 
-# 4. Run the application
+# Start the application
 python app/app.py
 ```
 
-The app will start on **http://localhost:5050**.
-
-### Installing FFmpeg (Optional)
-
-- **Windows**: Download from https://ffmpeg.org/download.html and add to PATH
-- **macOS**: `brew install ffmpeg`
-- **Linux**: `sudo apt install ffmpeg`
-
-## Usage
-
-1. Open `http://localhost:5050` in your browser
-2. Paste a video URL into the input field
-3. Click **Analyze** to fetch video information
-4. Select your desired quality and format
-5. Click **Download** to start downloading
-6. Monitor progress in real-time
-7. View your download history in the **History** tab
-
-## Project Structure
+The server will be available at:
 
 ```
-SmartVideoDownloader/
+http://localhost:5050
+```
+
+---
+
+## 🎵 Installing FFmpeg (Optional)
+
+### Windows
+
+Download FFmpeg from the official website and add it to your system PATH.
+
+### macOS
+
+```bash
+brew install ffmpeg
+```
+
+### Ubuntu / Debian
+
+```bash
+sudo apt install ffmpeg
+```
+
+---
+
+# 📖 Usage
+
+1. Launch the application.
+2. Paste a supported video URL.
+3. Click **Analyze**.
+4. Select your preferred quality and format.
+5. Click **Download**.
+6. Track the download progress in real time.
+7. Access previous downloads from the **History** page.
+
+---
+
+# 📁 Project Structure
+
+```
+MediaFlow/
+│
 ├── app/
-│   ├── __init__.py          # Flask app factory
-│   ├── app.py               # Entry point
-│   ├── config.py            # Configuration
+│   ├── __init__.py
+│   ├── app.py
+│   ├── config.py
+│   │
 │   ├── routes/
-│   │   ├── api.py           # Video analysis & download endpoints
-│   │   ├── history.py       # Download history CRUD
-│   │   └── settings.py      # App settings
+│   │   ├── api.py
+│   │   ├── history.py
+│   │   └── settings.py
+│   │
 │   ├── services/
-│   │   ├── video_service.py # yt-dlp wrapper
-│   │   └── history_service.py # SQLite history
+│   │   ├── video_service.py
+│   │   └── history_service.py
+│   │
 │   ├── utils/
-│   │   ├── validators.py    # URL validation
-│   │   ├── formatters.py    # Size/duration formatting
-│   │   └── logger.py        # Centralized logging
+│   │   ├── validators.py
+│   │   ├── formatters.py
+│   │   └── logger.py
+│   │
 │   ├── static/
-│   │   ├── css/             # Stylesheets
-│   │   ├── js/              # JavaScript modules
-│   │   └── img/             # Assets
+│   │   ├── css/
+│   │   ├── js/
+│   │   └── img/
+│   │
 │   └── templates/
-│       └── index.html       # SPA shell
+│       └── index.html
+│
 ├── requirements.txt
 ├── README.md
 └── .gitignore
 ```
 
-## Tech Stack
+---
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | HTML5, CSS3, Vanilla JavaScript |
-| Backend | Python FastAPI + Uvicorn |
-| Video Engine | yt-dlp |
-| Database | SQLite (aiosqlite) |
-| Real-Time | Server-Sent Events (SSE) |
+# 🛠️ Tech Stack
 
-## License
+| Layer             | Technology                    |
+| ----------------- | ----------------------------- |
+| Frontend          | HTML5, CSS3, JavaScript (ES6) |
+| Backend           | FastAPI + Uvicorn             |
+| Media Engine      | yt-dlp                        |
+| Database          | SQLite + aiosqlite            |
+| Real-Time Updates | Server-Sent Events (SSE)      |
+| Styling           | Glassmorphism UI              |
 
-MIT License — for educational and personal use.
+---
+
+# 📌 Future Roadmap
+
+* User authentication
+* Download queue management
+* Playlist downloading
+* Subtitle downloads
+* Batch downloads
+* Browser extension
+* Docker support
+* Multi-language interface
+* Download scheduler
+* Cloud storage integration
+
+---
+
+# 📄 License
+
+Licensed under the **MIT License**.
+
+This project is intended for educational, research, and personal use only.
