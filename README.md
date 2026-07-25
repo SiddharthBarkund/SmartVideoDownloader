@@ -171,8 +171,4 @@ MediaFlow/
 
 ---
 
-# 📄 License
 
-Licensed under the **MIT License**.
-
-This project is intended for educational, research, and personal use only.
