@@ -156,19 +156,5 @@ MediaFlow/
 
 ---
 
-# 📌 Future Roadmap
-
-* User authentication
-* Download queue management
-* Playlist downloading
-* Subtitle downloads
-* Batch downloads
-* Browser extension
-* Docker support
-* Multi-language interface
-* Download scheduler
-* Cloud storage integration
-
----
 
 
