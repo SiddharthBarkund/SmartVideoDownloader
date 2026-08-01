@@ -141,20 +141,7 @@ MediaFlow/
 └── .gitignore
 ```
 
----
 
-# 🛠️ Tech Stack
-
-| Layer             | Technology                    |
-| ----------------- | ----------------------------- |
-| Frontend          | HTML5, CSS3, JavaScript (ES6) |
-| Backend           | FastAPI + Uvicorn             |
-| Media Engine      | yt-dlp                        |
-| Database          | SQLite + aiosqlite            |
-| Real-Time Updates | Server-Sent Events (SSE)      |
-| Styling           | Glassmorphism UI              |
-
----
 
 
 
