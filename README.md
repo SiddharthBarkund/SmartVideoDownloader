@@ -104,44 +104,6 @@ sudo apt install ffmpeg
 
 ---
 
-# 📁 Project Structure
-
-```
-MediaFlow/
-│
-├── app/
-│   ├── __init__.py
-│   ├── app.py
-│   ├── config.py
-│   │
-│   ├── routes/
-│   │   ├── api.py
-│   │   ├── history.py
-│   │   └── settings.py
-│   │
-│   ├── services/
-│   │   ├── video_service.py
-│   │   └── history_service.py
-│   │
-│   ├── utils/
-│   │   ├── validators.py
-│   │   ├── formatters.py
-│   │   └── logger.py
-│   │
-│   ├── static/
-│   │   ├── css/
-│   │   ├── js/
-│   │   └── img/
-│   │
-│   └── templates/
-│       └── index.html
-│
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
-
-
 
 
 
