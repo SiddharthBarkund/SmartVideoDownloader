@@ -92,17 +92,6 @@ sudo apt install ffmpeg
 
 ---
 
-# 📖 Usage
-
-1. Launch the application.
-2. Paste a supported video URL.
-3. Click **Analyze**.
-4. Select your preferred quality and format.
-5. Click **Download**.
-6. Track the download progress in real time.
-7. Access previous downloads from the **History** page.
-
----
 
 
 
